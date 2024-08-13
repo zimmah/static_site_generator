@@ -17,7 +17,6 @@ class TextNode:
         return f"TextNode({textnode.text}, {textnode.text_type}, {textnode.url})"
     
 def main():
-    dummy = TextNode("This is a text node", "bold", "https://www.boot.dev")
-    print(dummy)
+    return
 
 main()
