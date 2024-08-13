@@ -1,4 +1,4 @@
-from textnode import TextNode, text_type_text
+from textnode import TextNode, text_type_text, text_type_image, text_type_link
 import re
 
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
@@ -32,3 +32,46 @@ def extract_markdown_links(text):
     pattern = r"(?<!!)\[(.*?)\]\((.*?)\)"
     matches = re.findall(pattern, text)
     return matches
+
+def split_nodes_image(old_nodes):
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != text_type_text:
+            new_nodes.append(old_node)
+            continue
+        original_text = old_node.text
+        images = extract_markdown_images(old_node.text)
+        if not images:
+            new_nodes.append(old_node)
+            continue
+        for image in images:
+            alt_text, img_href = image
+            first_section, original_text = original_text.split(f"![{alt_text}]({img_href})", 1)
+            if first_section != "":
+                new_nodes.append(TextNode(first_section, text_type_text))
+            new_nodes.append(TextNode(alt_text, text_type_image, img_href))
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, text_type_text))
+    return new_nodes
+    
+def split_nodes_link(old_nodes):
+    new_nodes = []
+    for old_node in old_nodes:
+        if old_node.text_type != text_type_text:
+            new_nodes.append(old_node)
+            continue
+        original_text = old_node.text
+        links = extract_markdown_links(old_node.text)
+        if not links:
+            new_nodes.append(old_node)
+            continue
+        for link in links:
+            link_text, link_href = link
+            first_section, original_text = original_text.split(f"[{link_text}]({link_href})", 1)
+            if first_section != "":
+                new_nodes.append(TextNode(first_section, text_type_text))
+            new_nodes.append(TextNode(link_text, text_type_link, link_href))
+        if original_text != "":
+            new_nodes.append(TextNode(original_text, text_type_text))
+    return new_nodes
+
