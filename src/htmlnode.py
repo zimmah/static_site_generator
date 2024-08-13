@@ -1,5 +1,4 @@
 from functools import reduce
-from textnode import TextNode
 
 class HTMLNode:
     def __init__(self, tag=None, value=None, children=None, props=None):
@@ -47,7 +46,6 @@ def text_node_to_html_node(text_node):
         case "text":
             return LeafNode(None, text_node.text)
         case "bold":
-            print("TEST")
             return LeafNode("b", text_node.text)
         case "italic":
             return LeafNode("i", text_node.text)
