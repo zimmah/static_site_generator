@@ -1,7 +1,7 @@
 import unittest
 
 from textnode import TextNode, text_type_bold, text_type_text, text_type_code, text_type_image, text_type_italic, text_type_link
-from parser import split_nodes_delimiter
+from parser import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
 
 class TestTextNode(unittest.TestCase):
     def test_split(self):
@@ -91,6 +91,14 @@ class TestTextNode(unittest.TestCase):
             ],
             new_nodes,
         )
+
+    def test_image_parser(self):
+        extracted_images = extract_markdown_images("This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)")
+        self.assertEqual(extracted_images, [("rick roll", "https://i.imgur.com/aKaOqIh.gif"), ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg")])
+
+    def test_url_parser(self):
+        extracted_urls = extract_markdown_links("This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)")
+        self.assertEqual(extracted_urls, [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")])
 
 if __name__ == "__main__":
     unittest.main()
