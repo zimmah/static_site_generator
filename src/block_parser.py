@@ -23,7 +23,7 @@ def block_to_block_type(block):
     heading5_pattern = r"^#{5}\s.*$"
     heading6_pattern = r"^#{6}\s.*$"
     code_pattern = r"^`{3}[\s\S]*`{3}$"
-    quote_pattern = r"^>(?:.*\n>.*)*$"
+    quote_pattern = r"^>(?:.*(?:\n>)?.*)*$"
     unordered_list_pattern = r"^[*-] (?:.*\n[*-] .*)*$"
     ordered_list_pattern = r"^1. (?:.*\n\d. .*)*$"
     if re.match(heading1_pattern, block):

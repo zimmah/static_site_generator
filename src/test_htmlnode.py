@@ -227,5 +227,45 @@ class TestHTMLNode(unittest.TestCase):
             "<div><blockquote>This is a blockquote block</blockquote><p>this is paragraph text</p></div>",
         )
 
+    def test_block_parser(self):
+        markdown = """# Tolkien Fan Club
+
+**I like Tolkien**. Read my [first post here](/majesty) (sorry the link doesn't work yet)
+
+> All that is gold does not glitter
+
+## Reasons I like Tolkien
+
+* You can spend years studying the legendarium and still not understand its depths
+* It can be enjoyed by children and adults alike
+* Disney *didn't ruin it*
+* It created an entirely new genre of fantasy
+
+## My favorite characters (in order)
+
+1. Gandalf
+2. Bilbo
+3. Sam
+4. Glorfindel
+5. Galadriel
+6. Elrond
+7. Thorin
+8. Sauron
+9. Aragorn
+
+Here's what `elflang` looks like (the perfect coding language):
+
+```
+func main(){
+    fmt.Println("Hello, World!")
+}
+```"""
+        html = """<div><h1>Tolkien Fan Club</h1><p><b>I like Tolkien</b>. Read my <a href="/majesty">first post here</a> (sorry the link doesn't work yet)</p><blockquote>All that is gold does not glitter</blockquote><h2>Reasons I like Tolkien</h2><ul><li>You can spend years studying the legendarium and still not understand its depths</li><li>It can be enjoyed by children and adults alike</li><li>Disney <i>didn't ruin it</i></li><li>It created an entirely new genre of fantasy</li></ul><h2>My favorite characters (in order)</h2><ol><li>Gandalf</li><li>Bilbo</li><li>Sam</li><li>Glorfindel</li><li>Galadriel</li><li>Elrond</li><li>Thorin</li><li>Sauron</li><li>Aragorn</li></ol><p>Here's what <code>elflang</code> looks like (the perfect coding language):</p><pre><code>
+func main(){
+    fmt.Println("Hello, World!")
+}
+</code></pre></div>"""
+        self.assertEqual(markdown_to_html_node(markdown).to_html(), html)
+
 if __name__ == "__main__":
     unittest.main()

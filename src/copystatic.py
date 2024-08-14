@@ -1,24 +1,24 @@
 import os
 import shutil
 
-dir_path_static = "./static"
-dir_path_public = "./public"
+def copy_static(source_path, destination):
+    if os.path.exists(destination):
+        print(f"deleting {destination}")
+        shutil.rmtree(destination)
+    print(f"creating empty {destination}")
+    os.mkdir(destination)
+    copy_files(source_path, destination)
 
-def copy_static():
-    if os.path.exists(dir_path_public):
-        print(f"deleting {dir_path_public}")
-        shutil.rmtree(dir_path_public)
-    print(f"creating empty {dir_path_public}")
-    os.mkdir(dir_path_public)
-    copy_files(dir_path_static)
-
-def copy_files(source_path, destination=dir_path_public):
+def copy_files(source_path, destination):
     if os.path.isfile(source_path):
         print(f"copying {source_path} to {destination}")
         shutil.copy(source_path, destination)
     else:
         directory = source_path.split("/")[-1]
-        new_destination = os.path.join(destination, directory)
+        if directory == source_path[2:]:
+            new_destination = destination
+        else:
+            new_destination = os.path.join(destination, directory)
         if not os.path.exists(new_destination):
             print(f"creating directory: {directory}")
             os.mkdir(new_destination)
