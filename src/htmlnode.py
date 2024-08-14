@@ -1,6 +1,5 @@
 from functools import reduce
-from block_parser import markdown_to_blocks, block_to_block_type, block_type_code, block_type_heading1, block_type_heading2, block_type_heading3, block_type_heading4, block_type_heading5, block_type_heading6, block_type_ordered_list, block_type_paragraph, block_type_unordered_list, block_type_quote
-from textnode import TextNode
+from block_parser import markdown_to_blocks, block_to_block_type
 from inline_parser import text_to_textnodes
 
 class HTMLNode:
@@ -62,6 +61,9 @@ def text_node_to_html_node(text_node):
             raise Exception("Invalid text type.")
         
 def markdown_to_html_node(markdown):
+    # this function should be refactored
+    # using helper functions, also it can utilize block_to_html_node
+    # headers and list can be cleaner
     blocks = markdown_to_blocks(markdown)
     children = []
     for block in blocks:
