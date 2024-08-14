@@ -64,6 +64,7 @@ def markdown_to_html_node(markdown):
     # this function should be refactored
     # using helper functions, also it can utilize block_to_html_node
     # headers and list can be cleaner
+    # bold and italics inside headings aren't being parsed
     blocks = markdown_to_blocks(markdown)
     children = []
     for block in blocks:
